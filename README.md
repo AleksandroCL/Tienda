@@ -171,6 +171,13 @@ Inicia la aplicación con tu `.env` y revisa estos recorridos directamente en la
 
 ## Historial de cambios
 
+### v2.5 — Tarjetas y formularios
+
+- Se destacaron las tarjetas numéricas del resumen con el naranja de la marca sobre un fondo oscuro y un aumento suave al pasar el cursor, respetando la preferencia de movimiento reducido. Los accesos rápidos mantienen su estilo oscuro.
+- Se renovaron los formularios de juegos, categorías, plataformas y usuarios con campos más claros, ayudas, errores visibles y adaptación a móvil.
+- El formulario de juegos se organizó por secciones y permite elegir categorías mediante casillas.
+- Se rediseñaron el inicio de sesión y el registro con etiquetas visibles, navegación entre ambos y botones para mostrar u ocultar contraseñas.
+
 ### v2.4 — Soporte y enlaces del footer
 
 - Se añadieron modales y páginas de términos y condiciones y política de privacidad, con textos orientados al cliente.

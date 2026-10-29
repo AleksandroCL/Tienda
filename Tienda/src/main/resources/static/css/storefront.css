@@ -373,7 +373,7 @@ nav.store-pagination { display: flex; justify-content: center; align-items: cent
 .compact-actions { display: flex; flex-wrap: wrap; gap: 10px; }
 .compact-actions a { display: inline-flex; align-items: center; justify-content: space-between; gap: 18px; min-height: 44px; padding: 11px 15px; border: 1px solid #37373f; border-radius: 7px; background: #1c1c22; color: #dedee7; font-size: .8rem; font-weight: 600; text-decoration: none; }
 .compact-actions a:hover { border-color: var(--accent-amber); }
-.compact-actions a:first-child { color: #ffb27a; border-color: #705035; }
+
 .dashboard-overview { margin-top: 38px; padding-bottom: 30px; }
 .dashboard-section-title { display: flex; justify-content: space-between; align-items: center; gap: 15px; flex-wrap: wrap; margin-bottom: 18px; }
 .dashboard-section-title h2 { margin: 0; }
@@ -408,18 +408,18 @@ nav.store-pagination { display: flex; justify-content: center; align-items: cent
 .dashboard-heading > .store-button { flex-shrink: 0; gap: 13px; }
 .dashboard-v23 .dashboard-shortcuts h2 { color: #b5b5c1; font-size: .72rem; font-weight: 600; margin-bottom: 12px; }
 .dashboard-v23 .compact-actions { gap: 9px; }
-.dashboard-v23 .compact-actions a { min-height: 42px; padding: 9px 13px; font-size: .74rem; background: #1a1a20; }
+.dashboard-v23 .compact-actions a { min-height: 44px; padding: 10px 14px; font-size: .74rem; color: #dedee7; background: #1a1a20; transition: border-color .18s ease; }
 .dashboard-v23 .dashboard-overview { margin-top: 30px; padding-bottom: 0; }
 .dashboard-v23 .dashboard-section-title h2 { font-size: .94rem; }
 .dashboard-refresh { display: inline-flex; align-items: center; gap: 9px; min-height: 40px; font-size: .72rem; color: #b5b5c1; text-decoration: none; }
 .dashboard-refresh:hover { color: #ffac70; }
 .dashboard-refresh > svg { flex-shrink: 0; }
 .dashboard-v23 .dashboard-stats { gap: 16px; }
-.dashboard-v23 .dashboard-stat { padding: 20px; gap: 14px; background: linear-gradient(135deg, #1c1c23, #18181e); border-color: #303039; }
-.dashboard-v23 .dashboard-stat .stat-label { display: flex; justify-content: space-between; align-items: center; gap: 12px; width: 100%; color: #b7b7c3; font-size: .72rem; }
-.dashboard-stat .stat-label > span { color: #777784; }
-.dashboard-v23 .dashboard-stat strong { color: #f3f3f7; font-size: 2.2rem; }
-.dashboard-v23 .stat-link { font-size: .66rem; color: #9393a2; }
+.dashboard-v23 .dashboard-stat { padding: 20px; gap: 14px; background: var(--bg-panel); background: linear-gradient(135deg, color-mix(in srgb, var(--accent-amber) 14%, var(--bg-panel)), var(--bg-panel)); border-color: var(--border-amber); color: var(--text-primary); box-shadow: 0 5px 18px #0002; transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
+.dashboard-v23 .dashboard-stat .stat-label { display: flex; justify-content: space-between; align-items: center; gap: 12px; width: 100%; color: #c9c1ba; font-size: .72rem; font-weight: 600; }
+.dashboard-stat .stat-label > span { color: var(--accent-amber); }
+.dashboard-v23 .dashboard-stat strong { color: var(--accent-amber); font-size: 2.2rem; }
+.dashboard-v23 .stat-link { font-size: .66rem; color: #b6aca4; }
 .dashboard-workspace { display: grid; grid-template-columns: minmax(0, .88fr) minmax(0, 1.12fr); gap: 22px; align-items: start; margin-top: 26px; }
 .dashboard-panel { background: #18181e; border: 1px solid #303039; border-radius: 11px; overflow: hidden; min-width: 0; }
 .dashboard-panel-heading { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 22px 23px; border-bottom: 1px solid #2d2d35; }
@@ -634,4 +634,14 @@ body.support-dialog-open { overflow: hidden; }
     .support-message-date { margin-left: 0; }
     .support-expand { margin-left: auto; }
     .support-message-body { padding-inline: 17px; }
+}
+
+/* Tarjetas numéricas: naranja de la marca sobre una superficie oscura. */
+.dashboard-v23 .dashboard-stat:focus-visible { outline: 2px solid var(--accent-amber); outline-offset: 4px; border-color: var(--accent-amber); }
+@media (hover: hover) and (pointer: fine) {
+    .dashboard-v23 .dashboard-stat:hover { transform: translateY(-3px) scale(1.02); border-color: var(--accent-amber); box-shadow: 0 8px 20px #0004; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .dashboard-v23 :is(.compact-actions a, .dashboard-stat) { transition: none; }
+    .dashboard-v23 .dashboard-stat:hover { transform: none; }
 }

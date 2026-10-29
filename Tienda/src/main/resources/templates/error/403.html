@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{layout/layout :: head('Acceso Denegado')}"></head>
+
+<body>
+    <nav th:replace="~{layout/layout :: navbar}"></nav>
+
+    <section class="hero">
+        <p class="hero-eyebrow">Error 403</p>
+        <h1>Acceso <span class="hl">restringido</span></h1>
+        <p class="hero-sub">
+            No tienes permiso para ver esta página. Si crees que es un error, contacta a un administrador.
+        </p>
+        <a href="/juegos" class="btn-hero">Volver al catálogo</a>
+    </section>
+
+    <footer th:replace="~{layout/layout :: footer}"></footer>
+</body>
+
+</html>

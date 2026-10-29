@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{layout/layout :: head('Administración — GAME HUB')}"></head>
+<body class="storefront">
+    <nav th:replace="~{layout/layout :: navbar}"></nav>
+    <main class="store-container dashboard-page dashboard-v23">
+        <header class="dashboard-heading">
+            <div>
+                <p class="store-eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span> Panel de administración</p>
+                <h1>Hola, <span sec:authentication="principal.nombre">Admin</span><span class="greeting-period">.</span></h1>
+                <p>Revisa tu catálogo y mantén el inventario al día.</p>
+            </div>
+            <a th:href="@{/juegos/nuevo}" class="store-button"><span aria-hidden="true">+</span> Agregar juego</a>
+        </header>
+
+        <section class="dashboard-shortcuts" aria-labelledby="shortcuts-title">
+            <h2 id="shortcuts-title">Accesos rápidos</h2>
+            <div class="compact-actions">
+                <a th:href="@{/juegos/nuevo}"><span aria-hidden="true">+</span> Agregar juego</a>
+                <a th:href="@{/admin/usuarios}">Gestionar usuarios <span aria-hidden="true">↗</span></a>
+                <a th:href="@{/admin/categorias}">Categorías <span aria-hidden="true">↗</span></a>
+                <a th:href="@{/admin/plataformas}">Plataformas <span aria-hidden="true">↗</span></a>
+                <a th:href="@{/juegos}">Ver catálogo <span aria-hidden="true">↗</span></a>
+                <a th:href="@{/admin/soporte}">Consultas de ayuda <span aria-hidden="true">↗</span></a>
+            </div>
+        </section>
+
+        <section class="dashboard-overview" aria-labelledby="overview-title">
+            <div class="dashboard-section-title">
+                <h2 id="overview-title">Resumen general</h2>
+                <a th:href="@{/admin/dashboard}" class="dashboard-refresh">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M6 7a7 7 0 0 1 12-1l2 6M4 12l2 6a7 7 0 0 0 12-1"/></svg>
+                    Actualizar datos
+                </a>
+            </div>
+            <div class="dashboard-stats">
+                <a th:href="@{/juegos}" class="dashboard-stat">
+                    <span class="stat-label">Juegos registrados <span aria-hidden="true">↗</span></span>
+                    <strong th:text="${resumen.totalJuegos}">0</strong><span class="stat-link">Ver catálogo</span>
+                </a>
+                <a th:href="@{/admin/usuarios}" class="dashboard-stat">
+                    <span class="stat-label">Usuarios registrados <span aria-hidden="true">↗</span></span>
+                    <strong th:text="${resumen.totalUsuarios}">0</strong><span class="stat-link">Gestionar usuarios</span>
+                </a>
+                <a th:href="@{/admin/categorias}" class="dashboard-stat">
+                    <span class="stat-label">Categorías <span aria-hidden="true">↗</span></span>
+                    <strong th:text="${resumen.totalCategorias}">0</strong><span class="stat-link">Gestionar categorías</span>
+                </a>
+                <a th:href="@{/admin/plataformas}" class="dashboard-stat">
+                    <span class="stat-label">Plataformas <span aria-hidden="true">↗</span></span>
+                    <strong th:text="${resumen.totalPlataformas}">0</strong><span class="stat-link">Gestionar plataformas</span>
+                </a>
+            </div>
+        </section>
+
+        <div class="dashboard-workspace">
+            <section class="dashboard-panel inventory-panel" aria-labelledby="inventory-title">
+                <div class="dashboard-panel-heading">
+                    <div><h2 id="inventory-title">Estado del inventario</h2><p>Disponibilidad de tu catálogo</p></div>
+                    <svg class="panel-symbol" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m12 3 9 5v9l-9 5-9-5V8l9-5Zm0 10v9M3 8l9 5 9-5M7.5 5.5l9 5"/></svg>
+                </div>
+                <dl class="inventory-metrics">
+                    <div class="inventory-metric">
+                        <dt><span class="inventory-dot inventory-dot--green" aria-hidden="true"></span> Unidades disponibles<span class="inventory-explanation">Suma de existencias de todos los juegos</span></dt>
+                        <dd th:text="${resumen.unidadesDisponibles}">0</dd>
+                    </div>
+                    <div class="inventory-metric inventory-metric--danger">
+                        <dt><span class="inventory-dot inventory-dot--red" aria-hidden="true"></span> Juegos agotados<span class="inventory-explanation">Sin unidades disponibles</span></dt>
+                        <dd th:text="${resumen.juegosAgotados}">0</dd>
+                    </div>
+                    <div class="inventory-metric inventory-metric--warning">
+                        <dt><span class="inventory-dot inventory-dot--amber" aria-hidden="true"></span> Juegos con stock bajo<span class="inventory-explanation" th:text="${'Entre 1 y ' + resumen.umbralStockBajo + ' unidades por juego'}">Entre 1 y 3 unidades por juego</span></dt>
+                        <dd th:text="${resumen.juegosStockBajo}">0</dd>
+                    </div>
+                </dl>
+                <p class="inventory-note">Los indicadores incluyen todos los juegos del catálogo.</p>
+            </section>
+
+            <section class="dashboard-panel attention-panel" aria-labelledby="attention-title">
+                <div class="dashboard-panel-heading">
+                    <div><h2 id="attention-title">Necesitan atención</h2><p>Primero, los juegos con menos unidades</p></div>
+                    <span class="attention-count" th:classappend="${resumen.juegosAgotados + resumen.juegosStockBajo == 0} ? 'attention-count--clear'"
+                          th:text="${resumen.juegosAgotados + resumen.juegosStockBajo}"
+                          th:attr="aria-label=${(resumen.juegosAgotados + resumen.juegosStockBajo) + ' juegos necesitan atención'}">0</span>
+                </div>
+                <ul class="attention-list" th:if="${not #lists.isEmpty(resumen.juegosAtencion)}">
+                    <li class="attention-item" th:each="juego : ${resumen.juegosAtencion}">
+                        <img class="attention-cover" th:src="${juego.imagenUrl}" alt="" width="42" height="56" data-fallback="/img/placeholder-juego.svg" loading="lazy">
+                        <div class="attention-item-info">
+                            <a th:href="@{/juegos/{id}(id=${juego.id})}" th:text="${juego.titulo}">Título del juego</a>
+                            <span class="inventory-badge" th:classappend="${juego.stock <= 0} ? 'inventory-badge--empty' : 'inventory-badge--low'"
+                                  th:text="${juego.stock <= 0 ? 'Agotado' : 'Stock bajo · ' + juego.stock + (juego.stock == 1 ? ' unidad' : ' unidades')}">Stock bajo</span>
+                        </div>
+                        <a class="dashboard-edit-link" th:href="@{/juegos/editar/{id}(id=${juego.id})}"
+                           th:attr="aria-label=${'Editar stock de ' + juego.titulo}">Editar stock <span aria-hidden="true">↗</span></a>
+                    </li>
+                </ul>
+                <div class="dashboard-empty attention-empty" th:if="${#lists.isEmpty(resumen.juegosAtencion)}">
+                    <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>
+                    <h3 th:text="${resumen.totalJuegos == 0} ? 'Tu inventario empieza aquí' : 'Todo en orden'">Todo en orden</h3>
+                    <p th:text="${resumen.totalJuegos == 0} ? 'Agrega tu primer juego para empezar a controlar el inventario.' : 'No hay juegos agotados ni con stock bajo.'"></p>
+                </div>
+                <div class="attention-panel-footer" th:if="${not #lists.isEmpty(resumen.juegosAtencion)}">
+                    <span th:text="${'Mostrando ' + #lists.size(resumen.juegosAtencion) + ' de ' + (resumen.juegosAgotados + resumen.juegosStockBajo)}">Mostrando 5 de 5</span>
+                    <a th:href="@{/juegos}">Abrir catálogo <span aria-hidden="true">↗</span></a>
+                </div>
+            </section>
+        </div>
+
+        <section class="dashboard-panel dashboard-recent" aria-labelledby="recent-title">
+            <div class="dashboard-panel-heading">
+                <div><h2 id="recent-title">Últimos juegos añadidos</h2><p>Los cinco registros más recientes de tu catálogo</p></div>
+                <a th:href="@{/juegos}" class="dashboard-section-link">Ver todos <span aria-hidden="true">↗</span></a>
+            </div>
+            <table class="dashboard-table" th:if="${not #lists.isEmpty(resumen.ultimosJuegos)}" role="table">
+                <caption class="visually-hidden">Últimos juegos registrados, del más reciente al más antiguo</caption>
+                <thead><tr><th scope="col">Juego</th><th scope="col">Plataforma</th><th scope="col">Precio</th><th scope="col">Stock</th><th scope="col">Acción</th></tr></thead>
+                <tbody>
+                    <tr th:each="juego : ${resumen.ultimosJuegos}">
+                        <td class="recent-game-cell">
+                            <div class="recent-game">
+                                <img th:src="${juego.imagenUrl}" alt="" width="42" height="56" data-fallback="/img/placeholder-juego.svg" loading="lazy">
+                                <div><a th:href="@{/juegos/{id}(id=${juego.id})}" th:text="${juego.titulo}">Título del juego</a><span th:text="${'ID #' + juego.id}">ID #1</span></div>
+                            </div>
+                        </td>
+                        <td data-label="Plataforma" class="recent-platform" th:text="${juego.plataformas}">PC</td>
+                        <td data-label="Precio" class="recent-price" th:text="${'S/ ' + #numbers.formatDecimal(juego.precio, 1, 2)}">S/ 0.00</td>
+                        <td data-label="Stock" class="recent-stock">
+                            <span class="inventory-badge" th:classappend="${juego.stock <= 0 ? 'inventory-badge--empty' : (juego.stock <= resumen.umbralStockBajo ? 'inventory-badge--low' : 'inventory-badge--available')}"
+                                  th:text="${juego.stock <= 0 ? 'Agotado' : (juego.stock <= resumen.umbralStockBajo ? 'Stock bajo' : 'Disponible')}">Disponible</span>
+                            <span class="recent-stock-units" th:text="${juego.stock <= 0 ? '0 unidades' : juego.stock + (juego.stock == 1 ? ' unidad' : ' unidades')}">0 unidades</span>
+                        </td>
+                        <td class="recent-action"><a class="dashboard-edit-link" th:href="@{/juegos/editar/{id}(id=${juego.id})}" th:attr="aria-label=${'Editar ' + juego.titulo}">Editar <span aria-hidden="true">↗</span></a></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="dashboard-empty recent-empty" th:if="${#lists.isEmpty(resumen.ultimosJuegos)}">
+                <h3>Aún no has añadido juegos</h3><p>Tu catálogo y sus últimos registros aparecerán aquí.</p>
+                <a th:href="@{/juegos/nuevo}" class="store-button"><span aria-hidden="true">+</span> Agregar primer juego</a>
+            </div>
+        </section>
+        <p class="dashboard-data-note">Datos consultados al abrir el panel. Usa «Actualizar datos» para volver a consultarlos.</p>
+    </main>
+    <footer th:replace="~{layout/layout :: footer}"></footer>
+</body>
+</html>

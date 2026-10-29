@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/layout :: head('Consultas de ayuda — GAME HUB')}"></head>
+<body class="storefront">
+    <nav th:replace="~{layout/layout :: navbar}"></nav>
+    <main class="store-container support-page">
+        <a th:href="@{/admin/dashboard}" class="form-back">← Volver al panel</a>
+        <header class="support-page-header"><p class="store-eyebrow">Administración · Soporte</p><h1>Consultas de <span>ayuda.</span></h1><p th:text="${totalConsultas + (totalConsultas == 1 ? ' consulta registrada' : ' consultas registradas')}">0 consultas registradas</p></header>
+        <div class="support-panel support-inbox-empty" th:if="${#lists.isEmpty(consultas)}"><h2>No hay consultas en esta página</h2><p>Las consultas registradas desde el Centro de ayuda aparecerán aquí.</p></div>
+        <div class="support-inbox" th:if="${not #lists.isEmpty(consultas)}">
+            <details class="support-panel support-message" th:each="consulta : ${consultas}">
+                <summary><span class="support-message-subject"><span class="support-reference" th:text="${'#' + consulta.id}">#1</span><strong th:text="${consulta.asunto}">Asunto</strong></span><span class="support-message-date" th:text="${#temporals.format(consulta.fechaCreacion, 'dd/MM/yyyy HH:mm')}">Fecha</span><span class="support-expand" aria-hidden="true">+</span></summary>
+                <div class="support-message-body"><p class="support-message-contact"><strong th:text="${consulta.nombre}">Nombre</strong><span th:text="${consulta.email}">Correo</span></p><p class="support-message-text" th:text="${consulta.mensaje}">Mensaje</p><p class="form-help">Fecha y hora de Lima. Consulta registrada desde el Centro de ayuda.</p></div>
+            </details>
+        </div>
+        <nav class="store-pagination" aria-label="Páginas de consultas" th:if="${totalPaginas > 1}">
+            <a th:if="${paginaActual > 0}" class="store-page-link" th:href="@{/admin/soporte(page=${paginaActual - 1})}">← Anterior</a>
+            <span class="support-page-number" th:text="${'Página ' + (paginaActual + 1) + ' de ' + totalPaginas}"></span>
+            <a th:if="${paginaActual + 1 < totalPaginas}" class="store-page-link" th:href="@{/admin/soporte(page=${paginaActual + 1})}">Siguiente →</a>
+        </nav>
+    </main>
+    <footer th:replace="~{layout/layout :: footer}"></footer>
+</body>
+</html>

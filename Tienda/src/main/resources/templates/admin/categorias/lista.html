@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{layout/layout :: head('Gestionar categorías')}"></head>
+
+<body>
+    <nav th:replace="~{layout/layout :: navbar}"></nav>
+
+    <main class="catalogo-container">
+
+        <a th:href="@{/admin/dashboard}" class="btn-volver"
+            style="position: static; display: inline-flex; margin-bottom: 1.5rem;">
+            ← Volver al panel
+        </a>
+
+        <div class="catalogo-header">
+            <div class="catalogo-title">
+                <h2>Categorías</h2>
+                <span class="catalogo-count" th:text="${#lists.size(categorias)} + ' categorías'">0 categorías</span>
+            </div>
+            <a th:href="@{/admin/categorias/nueva}" class="auth-btn" style="width: auto; padding: 11px 22px;">
+                + Nueva categoría
+            </a>
+        </div>
+
+        <div th:if="${errorEliminar}" class="alert-error" th:text="${errorEliminar}">
+            No se pudo eliminar.
+        </div>
+
+        <div class="admin-panel">
+            <table class="admin-table" th:if="${!#lists.isEmpty(categorias)}">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th style="width: 200px;">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="categoria : ${categorias}">
+                        <td th:text="${categoria.nombre}">Nombre</td>
+                        <td>
+                            <div class="admin-actions" style="border: none; padding: 0;">
+                                <a th:href="@{/admin/categorias/editar/{id}(id=${categoria.id})}"
+                                    class="btn-edit">Editar</a>
+                                <form class="delete-form"
+                                    th:action="@{/admin/categorias/eliminar/{id}(id=${categoria.id})}" method="post">
+                                    <button type="submit" class="btn-delete">Eliminar</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="catalogo-empty" th:if="${#lists.isEmpty(categorias)}">
+                <strong>Aún no hay categorías</strong>
+                <p>Crea la primera con el botón de arriba.</p>
+            </div>
+        </div>
+    </main>
+
+    <div th:replace="~{layout/layout :: confirmModal}"></div>
+    <script th:src="@{/js/confirm-modal.js}"></script>
+
+    <footer th:replace="~{layout/layout :: footer}"></footer>
+</body>
+
+</html>

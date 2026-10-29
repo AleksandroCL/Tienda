@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{layout/layout :: head('Gestión de Usuarios - GAME HUB')}"></head>
+
+<body>
+    <nav th:replace="~{layout/layout :: navbar}"></nav>
+
+    <main class="catalogo-container">
+
+        <a th:href="@{/admin/dashboard}" class="btn-volver"
+            style="position: static; display: inline-flex; margin-bottom: 1.5rem;">
+            ← Volver al panel
+        </a>
+
+        <div class="admin-header">
+            <h1>Gestión de <span class="hl">Usuarios</span></h1>
+        </div>
+
+        <!-- Alertas de éxito y error -->
+        <div th:if="${exito}"
+            style="background: rgba(40, 167, 69, 0.1); border: 1px solid rgba(40, 167, 69, 0.35); color: #28a745; padding: 0.9rem 1.2rem; border-radius: 6px; margin-bottom: 1.5rem; font-size: 0.9rem;"
+            th:text="${exito}"></div>
+        <div th:if="${error}" class="alert-error" th:text="${error}"></div>
+
+        <!-- Buscador -->
+        <div class="catalogo-header">
+            <form th:action="@{/admin/usuarios}" method="get"
+                style="display: flex; gap: 10px; width: 100%; max-width: 450px;">
+                <input type="text" name="buscar" class="auth-input" placeholder="Buscar por nombre o correo..."
+                    th:value="${buscarActual}" style="margin-bottom: 0;">
+                <button type="submit" class="auth-btn" style="width: auto; padding: 0 20px;">Buscar</button>
+                <a th:if="${buscarActual != null and buscarActual != ''}" th:href="@{/admin/usuarios}"
+                    class="btn-cancel" style="padding: 10px 15px; border-radius: 4px;">Limpiar</a>
+            </form>
+        </div>
+
+        <!-- Tabla -->
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Correo</th>
+                    <th>Rol</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="u : ${usuarios}">
+                    <td th:text="${u.id}"></td>
+                    <td th:text="${u.nombre}"></td>
+                    <td th:text="${u.email}"></td>
+                    <td>
+                        <!-- Si es ADMIN lo pintamos de coral, sino color normal -->
+                        <span class="tag" th:text="${u.rol.nombre}"
+                            th:style="${u.rol.nombre == 'ADMIN'} ? 'border-color: var(--accent-coral); color: var(--accent-coral);' : ''"></span>
+                    </td>
+                    <td>
+                        <div style="display: flex; gap: 8px;">
+                            <a th:href="@{/admin/usuarios/editar/{id}(id=${u.id})}" class="btn-edit"
+                                style="width: auto; padding: 6px 12px;">Editar</a>
+                            <form th:action="@{/admin/usuarios/eliminar/{id}(id=${u.id})}" method="post"
+                                style="margin: 0;">
+                                <button type="submit" class="btn-delete"
+                                    style="width: auto; padding: 6px 12px;">Eliminar</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(usuarios)}">
+                    <td colspan="5" style="text-align: center; color: var(--text-muted);">No se encontraron usuarios.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Paginación Numérica -->
+        <div class="pagination" th:if="${totalPaginas != null and totalPaginas > 1}">
+            <a th:each="i : ${#numbers.sequence(0, totalPaginas - 1)}"
+                th:href="@{/admin/usuarios(buscar=${buscarActual}, page=${i})}" th:text="${i + 1}"
+                th:classappend="${i == paginaActual} ? 'active' : ''" class="page-link"></a>
+        </div>
+    </main>
+
+    <footer th:replace="~{layout/layout :: footer}"></footer>
+</body>
+
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{layout/layout :: head(${editando} ? 'Editar juego' : 'Nuevo juego')}"></head>
+
+<body>
+    <nav th:replace="~{layout/layout :: navbar}"></nav>
+
+    <!-- ENVOLVEMOS EL CONTENIDO EN EL MAIN -->
+    <main class="catalogo-container">
+
+        <!-- CONTENEDOR SIMÉTRICO DE 700px -->
+        <div style="max-width: 700px; margin: 0 auto; width: 100%;">
+
+            <!-- Botón con margen corregido -->
+            <a th:href="@{/admin/dashboard}" class="btn-volver"
+                style="position: static; display: inline-flex; margin-bottom: 1.5rem;">
+                ← Volver al panel
+            </a>
+
+            <!-- Tarjeta con margin-top 0 para pegarse al botón -->
+            <div class="form-card" style="margin-top: 0;">
+                <div class="form-header">
+                    <h2 th:text="${editando} ? 'Editar juego' : 'Registrar nuevo juego'">Formulario</h2>
+                </div>
+
+                <div class="form-body">
+                    <form th:action="${editando} ? @{/juegos/editar/{id}(id=${juegoId})} : @{/juegos/nuevo}"
+                        th:object="${juegoDto}" method="post">
+
+                        <div class="form-group">
+                            <label for="titulo">Título</label>
+                            <input type="text" id="titulo" class="auth-input" th:field="*{titulo}"
+                                placeholder="Ej: Elden Ring">
+                            <span th:if="${#fields.hasErrors('titulo')}" th:errors="*{titulo}"
+                                style="color: var(--accent-coral); font-size: 0.85rem;"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="descripcion">Descripción</label>
+                            <textarea id="descripcion" class="auth-input" th:field="*{descripcion}"
+                                placeholder="Breve descripción del juego"></textarea>
+                            <span th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"
+                                style="color: var(--accent-coral); font-size: 0.85rem;"></span>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="precio">Precio (S/)</label>
+                                <input type="number" id="precio" class="auth-input" th:field="*{precio}" step="0.01"
+                                    min="0">
+                                <span th:if="${#fields.hasErrors('precio')}" th:errors="*{precio}"
+                                    style="color: var(--accent-coral); font-size: 0.85rem;"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="stock">Stock</label>
+                                <input type="number" id="stock" class="auth-input" th:field="*{stock}" min="0">
+                                <span th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}"
+                                    style="color: var(--accent-coral); font-size: 0.85rem;"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="imagenUrl">URL de la imagen</label>
+                            <input type="text" id="imagenUrl" class="auth-input" th:field="*{imagenUrl}"
+                                placeholder="https://...">
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="fechaLanzamiento">Fecha de lanzamiento</label>
+                                <input type="date" id="fechaLanzamiento" class="auth-input"
+                                    th:field="*{fechaLanzamiento}">
+                                <span th:if="${#fields.hasErrors('fechaLanzamiento')}" th:errors="*{fechaLanzamiento}"
+                                    style="color: var(--accent-coral); font-size: 0.85rem;"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="plataformaId">Plataforma</label>
+                                <select id="plataformaId" class="auth-input" th:field="*{plataformaId}">
+                                    <option value="">Selecciona una plataforma</option>
+                                    <option th:each="plataforma : ${plataformas}" th:value="${plataforma.id}"
+                                        th:text="${plataforma.nombre}"></option>
+                                </select>
+                                <span th:if="${#fields.hasErrors('plataformaId')}" th:errors="*{plataformaId}"
+                                    style="color: var(--accent-coral); font-size: 0.85rem;"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="categoriaIds">Categorías</label>
+                            <select id="categoriaIds" class="auth-input" th:field="*{categoriaIds}" multiple size="4">
+                                <option th:each="categoria : ${categorias}" th:value="${categoria.id}"
+                                    th:text="${categoria.nombre}"></option>
+                            </select>
+                            <span style="color: var(--text-muted); font-size: 0.8rem;">
+                                Mantén presionado Ctrl (o Cmd en Mac) para elegir varias.
+                            </span>
+                            <span th:if="${#fields.hasErrors('categoriaIds')}" th:errors="*{categoriaIds}"
+                                style="display: block; color: var(--accent-coral); font-size: 0.85rem;"></span>
+                        </div>
+
+                        <div class="form-actions">
+                            <a th:href="@{/juegos}" class="btn-cancel">Cancelar</a>
+                            <button type="submit" class="auth-btn"
+                                th:text="${editando} ? 'Guardar cambios' : 'Registrar juego'">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{layout/layout :: footer}"></footer>
+</body>
+
+</html>

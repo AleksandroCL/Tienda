@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/layout :: head(${editando} ? 'Editar plataforma' : 'Nueva plataforma')}"></head>
+<body>
+    <nav th:replace="~{layout/layout :: navbar}"></nav>
+    <main class="catalogo-container">
+        <a th:href="@{/admin/plataformas}" class="form-back">← Volver a plataformas</a>
+        <div class="form-card">
+            <div class="form-header"><h2 th:text="${editando} ? 'Editar plataforma' : 'Nueva plataforma'"></h2></div>
+            <div class="form-body">
+                <form th:action="${editando} ? @{/admin/plataformas/editar/{id}(id=${plataformaId})} : @{/admin/plataformas/nueva}"
+                      th:object="${plataformaDto}" method="post">
+                    <div class="form-group">
+                        <label for="nombre">Nombre de la plataforma</label>
+                        <input type="text" id="nombre" class="auth-input" th:field="*{nombre}" placeholder="Ej. PlayStation 5, Xbox Series X, PC…"
+                               required maxlength="30" autofocus aria-describedby="nombre-error" th:attr="aria-invalid=${#fields.hasErrors('nombre')}">
+                        <span class="field-error" id="nombre-error" th:errors="*{nombre}"></span>
+                    </div>
+                    <div class="form-actions">
+                        <a th:href="@{/admin/plataformas}" class="btn-cancel">Cancelar</a>
+                        <button type="submit" class="auth-btn" th:text="${editando} ? 'Guardar cambios' : 'Crear plataforma'"></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+    <footer th:replace="~{layout/layout :: footer}"></footer>
+</body>
+</html>

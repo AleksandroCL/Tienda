@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<body>
+    <article th:fragment="terminos" class="legal-prose">
+        <p class="legal-intro">Bienvenido a GAME HUB. Estos términos y condiciones regulan el uso de nuestro sitio web y sus servicios.</p>
+        <h3>1. Nuestros servicios</h3>
+        <p>En GAME HUB puedes explorar nuestro catálogo de videojuegos, crear una cuenta y guardar tu selección en el carrito. Actualmente, la confirmación de pedidos y los pagos en línea no están disponibles.</p>
+        <h3>2. Tu cuenta</h3>
+        <p>Proporciona información correcta al crear tu cuenta y mantén tu contraseña en privado. Eres responsable del uso de tu cuenta. Si detectas un acceso que no reconoces, comunícalo a través del Centro de ayuda.</p>
+        <h3>3. Catálogo, precios y disponibilidad</h3>
+        <p>Los precios se muestran en soles (S/). La información de los productos, los precios y las existencias pueden actualizarse. Agregar un juego al carrito no reserva unidades ni confirma una compra.</p>
+        <h3>4. Uso responsable</h3>
+        <p>Utiliza el sitio de forma responsable. No está permitido introducir contenido ofensivo, acceder a cuentas ajenas ni alterar información sin autorización. Los nombres, marcas e imágenes de los videojuegos pertenecen a sus respectivos titulares.</p>
+        <h3>5. Consultas</h3>
+        <p>Si necesitas ayuda con tu cuenta, el catálogo o el carrito, envíanos una consulta desde el <a th:href="@{/soporte/ayuda}">Centro de ayuda</a>. Recibirás un número de referencia para identificar tu solicitud.</p>
+    </article>
+
+    <article th:fragment="privacidad" class="legal-prose">
+        <p class="legal-intro">En GAME HUB cuidamos tu información personal. Esta política explica qué datos recopilamos, cómo los utilizamos y cómo puedes solicitar su revisión.</p>
+        <h3>1. Información que se registra</h3>
+        <p>Al crear una cuenta, registramos tu nombre, correo electrónico y contraseña almacenada de forma protegida, sin guardarla como texto legible. Si utilizas el formulario de ayuda, también registramos el nombre y correo que indiques, el asunto, el mensaje y la fecha de tu consulta.</p>
+        <h3>2. Para qué se utiliza</h3>
+        <p>Utilizamos los datos de tu cuenta para identificarte, permitirte iniciar sesión y ofrecerte las funciones disponibles. La información que envías al Centro de ayuda se utiliza para revisar y gestionar tus consultas.</p>
+        <h3>3. Sesión y carrito</h3>
+        <p>El sitio utiliza una cookie de sesión para mantener tu acceso y relacionar tu carrito con la sesión actual. Al cerrar sesión o caducar esta, el carrito puede dejar de estar disponible. No utilizamos herramientas de seguimiento publicitario.</p>
+        <h3>4. Acceso y recursos externos</h3>
+        <p>El personal encargado de gestionar las cuentas y las consultas de ayuda puede acceder a la información necesaria para esas tareas. El sitio puede cargar tipografías e imágenes de servicios externos, que reciben los datos de conexión necesarios para mostrar esos recursos.</p>
+        <h3>5. Revisión de tus datos</h3>
+        <p>Conservamos la información asociada a tu cuenta y a tus consultas mientras se mantienen esos registros. Puedes solicitar la revisión, corrección o eliminación de tus datos desde el <a th:href="@{/soporte/ayuda(asunto='Revisión de mis datos')}">Centro de ayuda</a>. Cada solicitud se revisará de forma individual.</p>
+        <p class="legal-note">En el formulario de ayuda, incluye solo lo necesario para explicar tu consulta. No escribas contraseñas ni datos de pago.</p>
+    </article>
+</body>
+</html>

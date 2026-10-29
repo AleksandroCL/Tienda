@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+    <article th:fragment="card(juego, administrar)" class="game-card store-card">
+        <a class="game-card-media" th:href="@{/juegos/{id}(id=${juego.id})}">
+            <img th:src="${#strings.isEmpty(juego.imagenUrl) ? '/img/placeholder-juego.svg' : juego.imagenUrl}"
+                 th:alt="${juego.titulo}" width="450" height="600" loading="lazy" decoding="async"
+                 data-fallback="/img/placeholder-juego.svg">
+            <span class="stock-badge" th:classappend="${juego.stock == null or juego.stock <= 0} ? 'stock-badge--empty'"
+                  th:text="${juego.stock != null and juego.stock > 0} ? 'Disponible' : 'Agotado'">Disponible</span>
+        </a>
+        <div class="game-card-body">
+            <p class="game-card-plataformas" th:text="${#strings.listJoin(juego.plataformas.![nombre], ' · ')}">Plataforma</p>
+            <h3 class="game-card-title">
+                <a th:href="@{/juegos/{id}(id=${juego.id})}" th:text="${juego.titulo}">Título del juego</a>
+            </h3>
+            <div class="game-card-tags">
+                <span class="tag" th:each="categoria, estado : ${juego.categorias}" th:if="${estado.index < 2}"
+                      th:text="${categoria.nombre}">Categoría</span>
+            </div>
+            <div class="game-card-footer">
+                <span class="card-price" th:text="${'S/ ' + #numbers.formatDecimal(juego.precio, 1, 2)}">S/ 0.00</span>
+                <form th:action="@{/carrito/agregar/{id}(id=${juego.id})}" method="post" class="card-cart-form">
+                    <button type="submit" class="card-cart-button"
+                            th:disabled="${juego.stock == null or juego.stock <= 0}"
+                            th:attr="aria-label=${'Agregar ' + juego.titulo + ' al carrito'}">
+                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                            <path d="M3 3h2l3 12h10l3-9H6"/>
+                            <circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/>
+                        </svg>
+                        <span th:text="${juego.stock != null and juego.stock > 0} ? 'Agregar' : 'Agotado'">Agregar</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div th:if="${administrar}" sec:authorize="hasRole('ADMIN')" class="admin-actions">
+            <a th:href="@{/juegos/editar/{id}(id=${juego.id})}" class="btn-edit">Editar</a>
+            <form class="delete-form" th:action="@{/juegos/eliminar/{id}(id=${juego.id})}" method="post">
+                <button type="submit" class="btn-delete">Eliminar</button>
+            </form>
+        </div>
+    </article>
+</body>
+</html>

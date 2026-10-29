@@ -1,0 +1,4 @@
+# Credenciales locales (VS Code carga .env desde esta carpeta).
+.env
+.env.*
+!.env.example

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/layout :: head('Centro de ayuda — GAME HUB')}"></head>
+<body class="storefront">
+    <nav th:replace="~{layout/layout :: navbar}"></nav>
+    <main class="store-container support-page">
+        <div class="store-breadcrumb"><a th:href="@{/}">Inicio</a><span aria-hidden="true">/</span><span>Centro de ayuda</span></div>
+        <header class="support-page-header">
+            <p class="store-eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span> Estamos para ayudarte</p>
+            <h1>Resolvamos tu <span>consulta.</span></h1>
+            <p>Encuentra una respuesta rápida o cuéntanos qué necesitas revisar.</p>
+        </header>
+        <div class="help-layout">
+            <section class="support-panel help-faq" aria-labelledby="faq-title">
+                <div class="support-section-heading"><h2 id="faq-title">Preguntas frecuentes</h2><p>Lo esencial para empezar en GAME HUB.</p></div>
+                <details><summary>¿Cómo creo una cuenta?</summary><p>Abre <a th:href="@{/auth/registro}">Crear cuenta</a> e introduce tu nombre, correo y contraseña. Usa al menos 8 caracteres con una mayúscula, un número y un símbolo. Después podrás iniciar sesión.</p></details>
+                <details><summary>¿Por qué no puedo agregar un juego?</summary><p>Para usar el carrito necesitas <a th:href="@{/auth/login}">iniciar sesión</a>. Comprueba también que el juego tenga unidades disponibles y que no hayas alcanzado el stock máximo.</p></details>
+                <details><summary>¿Puedo finalizar una compra?</summary><p>Puedes explorar el catálogo y guardar tus juegos en el carrito. Actualmente, la confirmación de pedidos y los pagos en línea no están disponibles.</p></details>
+                <details><summary>¿Mi carrito reserva el stock?</summary><p>No. El carrito guarda tu selección durante la sesión, pero no reserva existencias. La disponibilidad puede cambiar si se actualiza el catálogo.</p></details>
+                <details><summary>¿Cómo comunico un problema con mi cuenta?</summary><p>Usa el formulario de esta página e indica el correo asociado a tu cuenta. Explica el problema sin compartir tu contraseña.</p></details>
+                <details><summary>¿Qué ocurre al enviar una consulta?</summary><p>Tu consulta queda registrada para su revisión. Verás un número de referencia en esta página. No se envían confirmaciones automáticas por correo.</p></details>
+                <div class="help-document-links">
+                    <a th:href="@{/soporte/terminos}" data-support-dialog="terminosDialog" aria-haspopup="dialog">Términos y condiciones ↗</a>
+                    <a th:href="@{/soporte/privacidad}" data-support-dialog="privacidadDialog" aria-haspopup="dialog">Política de privacidad ↗</a>
+                </div>
+            </section>
+            <section class="support-panel help-contact" id="contacto" aria-labelledby="contact-title">
+                <div class="support-section-heading"><h2 id="contact-title">Escríbenos</h2><p>Describe tu consulta con el mayor detalle posible.</p></div>
+                <div class="support-success" th:if="${consultaRegistrada != null}" role="status" tabindex="-1" id="consultaConfirmada">
+                    <strong>Tu consulta quedó registrada.</strong>
+                    <p th:text="${'Referencia #' + consultaRegistrada + '. Conserva este número para identificar tu consulta.'}"></p>
+                </div>
+                <form th:action="@{/soporte/consulta}" th:object="${consultaDto}" method="post" class="help-form">
+                    <div class="support-form-summary" th:if="${#fields.hasAnyErrors()}" role="alert" tabindex="-1"><strong>Revisa los campos indicados antes de enviar.</strong></div>
+                    <div class="form-group">
+                        <label for="consultaNombre">Nombre</label>
+                        <input type="text" id="consultaNombre" th:field="*{nombre}" class="auth-input" required maxlength="100" autocomplete="name" aria-describedby="consultaNombreError" th:attr="aria-invalid=${#fields.hasErrors('nombre')}">
+                        <span id="consultaNombreError" class="field-error" th:errors="*{nombre}"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="consultaEmail">Correo electrónico</label>
+                        <input type="email" id="consultaEmail" th:field="*{email}" class="auth-input" required maxlength="150" autocomplete="email" aria-describedby="consultaEmailError" th:attr="aria-invalid=${#fields.hasErrors('email')}">
+                        <span id="consultaEmailError" class="field-error" th:errors="*{email}"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="consultaAsunto">Asunto</label>
+                        <input type="text" id="consultaAsunto" th:field="*{asunto}" class="auth-input" required maxlength="120" placeholder="Ej. Problema al iniciar sesión" aria-describedby="consultaAsuntoError" th:attr="aria-invalid=${#fields.hasErrors('asunto')}">
+                        <span id="consultaAsuntoError" class="field-error" th:errors="*{asunto}"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="consultaMensaje">Tu consulta</label>
+                        <textarea id="consultaMensaje" th:field="*{mensaje}" class="auth-input" required minlength="10" maxlength="2000" rows="5" placeholder="Cuéntanos qué ocurrió y en qué pantalla…" aria-describedby="consultaMensajeAyuda consultaMensajeError" th:attr="aria-invalid=${#fields.hasErrors('mensaje')}"></textarea>
+                        <p class="form-help" id="consultaMensajeAyuda">Entre 10 y 2000 caracteres. Evita incluir contraseñas o datos de pago.</p>
+                        <span id="consultaMensajeError" class="field-error" th:errors="*{mensaje}"></span>
+                    </div>
+                    <p class="help-privacy-note">Tu nombre, correo y mensaje se guardarán para revisar tu consulta. Puedes leer la <a th:href="@{/soporte/privacidad}" data-support-dialog="privacidadDialog" aria-haspopup="dialog">política de privacidad</a>.</p>
+                    <button type="submit" class="store-button">Registrar consulta <span aria-hidden="true">↗</span></button>
+                </form>
+            </section>
+        </div>
+    </main>
+    <footer th:replace="~{layout/layout :: footer}"></footer>
+</body>
+</html>

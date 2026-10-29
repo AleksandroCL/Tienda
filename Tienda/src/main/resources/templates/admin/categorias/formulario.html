@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{layout/layout :: head(${editando} ? 'Editar categoría' : 'Nueva categoría')}"></head>
+
+<body>
+    <nav th:replace="~{layout/layout :: navbar}"></nav>
+
+    <main class="catalogo-container">
+
+        <div style="max-width: 700px; margin: 0 auto; width: 100%;">
+
+            <a th:href="@{/admin/categorias}" class="btn-volver"
+                style="position: static; display: inline-flex; margin-bottom: 1.5rem;">
+                ← Volver a categorías
+            </a>
+
+            <div class="form-card" style="margin-top: 0;">
+                <div class="form-header">
+                    <h2 th:text="${editando} ? 'Editar categoría' : 'Nueva categoría'">Formulario</h2>
+                </div>
+
+                <div class="form-body">
+                    <form
+                        th:action="${editando} ? @{/admin/categorias/editar/{id}(id=${categoriaId})} : @{/admin/categorias/nueva}"
+                        th:object="${categoriaDto}" method="post">
+
+                        <div class="form-group">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" id="nombre" class="auth-input" th:field="*{nombre}"
+                                placeholder="Ej: RPG" required maxlength="50" aria-describedby="categoria-error"
+                                th:attr="aria-invalid=${#fields.hasErrors('nombre')}">
+                            <span id="categoria-error" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"
+                                style="color: var(--accent-coral); font-size: 0.85rem;"></span>
+                        </div>
+
+                        <div class="form-actions">
+                            <a th:href="@{/admin/categorias}" class="btn-cancel">Cancelar</a>
+                            <button type="submit" class="auth-btn"
+                                th:text="${editando} ? 'Guardar cambios' : 'Crear categoría'">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{layout/layout :: footer}"></footer>
+</body>
+
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/layout :: head('Editar usuario — GAME HUB')}"></head>
+<body>
+    <nav th:replace="~{layout/layout :: navbar}"></nav>
+    <main class="catalogo-container">
+        <a th:href="@{/admin/usuarios}" class="form-back">← Volver a usuarios</a>
+        <div class="form-card">
+            <div class="form-header"><h2>Editar usuario</h2></div>
+            <div class="form-body">
+                <form th:action="@{/admin/usuarios/editar/{id}(id=${usuarioId})}" th:object="${usuarioDto}" method="post">
+                    <div class="alert-error" th:if="${#fields.hasGlobalErrors()}" role="alert">
+                        <p th:each="error : ${#fields.globalErrors()}" th:text="${error}"></p>
+                    </div>
+                    <div class="form-group">
+                        <label for="nombre">Nombre</label>
+                        <input type="text" id="nombre" class="auth-input" th:field="*{nombre}" required maxlength="100"
+                               aria-describedby="nombre-error" th:attr="aria-invalid=${#fields.hasErrors('nombre')}">
+                        <span class="field-error" id="nombre-error" th:errors="*{nombre}"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Correo electrónico</label>
+                        <input type="email" id="email" class="auth-input" th:field="*{email}" required maxlength="150"
+                               aria-describedby="email-error" th:attr="aria-invalid=${#fields.hasErrors('email')}">
+                        <span class="field-error" id="email-error" th:errors="*{email}"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="rolId">Nivel de acceso</label>
+                        <select id="rolId" class="auth-input" th:field="*{rolId}" required
+                                aria-describedby="rol-error" th:attr="aria-invalid=${#fields.hasErrors('rolId')}">
+                            <option value="">Selecciona un rol</option>
+                            <option th:each="rol : ${roles}" th:value="${rol.id}" th:text="${rol.nombre}"></option>
+                        </select>
+                        <span class="field-error" id="rol-error" th:errors="*{rolId}"></span>
+                    </div>
+                    <p class="form-help">La contraseña actual se conserva al guardar estos datos.</p>
+                    <div class="form-actions">
+                        <a th:href="@{/admin/usuarios}" class="btn-cancel">Cancelar</a>
+                        <button type="submit" class="auth-btn">Guardar cambios</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+    <footer th:replace="~{layout/layout :: footer}"></footer>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/layout :: head('GAME HUB — Tu próxima aventura')}"></head>
+<body class="storefront">
+    <nav th:replace="~{layout/layout :: navbar}"></nav>
+    <main id="contenido">
+        <section class="home-hero store-container" aria-labelledby="hero-title">
+            <div class="home-hero-copy">
+                <p class="store-eyebrow"><span class="eyebrow-dot" aria-hidden="true"></span> El siguiente nivel te espera</p>
+                <h1 id="hero-title">Tu próxima<br><span>aventura</span><br>empieza aquí.</h1>
+                <p class="home-hero-description">Grandes historias. Nuevos desafíos. Encuentra ese juego al que siempre quieres volver.</p>
+                <div class="hero-actions">
+                    <a th:href="@{/juegos}" class="store-button">Explorar catálogo <span aria-hidden="true">↗</span></a>
+                    <a href="#novedades" class="store-text-link">Ver lo nuevo <span aria-hidden="true">↓</span></a>
+                </div>
+                <p class="hero-caption">Elige tu plataforma. Encuentra tu próxima partida.</p>
+            </div>
+            <div class="hero-showcase">
+                <span class="showcase-word" aria-hidden="true">PLAY</span>
+                <div class="hero-covers" th:if="${not #lists.isEmpty(ultimosJuegos)}">
+                    <a class="hero-cover" th:each="juego, estado : ${ultimosJuegos}" th:if="${estado.index < 3}"
+                       th:href="@{/juegos/{id}(id=${juego.id})}" th:classappend="${'hero-cover--' + estado.index}"
+                       th:attr="aria-label=${'Descubrir ' + juego.titulo}">
+                        <img th:src="${#strings.isEmpty(juego.imagenUrl) ? '/img/placeholder-juego.svg' : juego.imagenUrl}"
+                             th:alt="${juego.titulo}" width="450" height="600" data-fallback="/img/placeholder-juego.svg">
+                        <span th:text="${juego.titulo}">Tu próxima partida</span>
+                    </a>
+                </div>
+                <div class="hero-covers hero-covers--empty" th:if="${#lists.isEmpty(ultimosJuegos)}" aria-hidden="true">
+                    <div class="hero-cover hero-cover--0"><img th:src="@{/img/placeholder-juego.svg}" alt="" width="450" height="600"></div>
+                    <div class="hero-cover hero-cover--1"><img th:src="@{/img/placeholder-juego.svg}" alt="" width="450" height="600"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="home-latest store-container" id="novedades" aria-labelledby="latest-title">
+            <div class="store-section-header">
+                <div><p class="store-eyebrow">Recién llegados</p><h2 id="latest-title">Tu próxima partida</h2></div>
+                <a th:href="@{/juegos}" class="store-text-link">Ver todos los juegos <span aria-hidden="true">↗</span></a>
+            </div>
+            <div class="catalogo-grid" th:if="${not #lists.isEmpty(ultimosJuegos)}">
+                <th:block th:each="juego : ${ultimosJuegos}">
+                    <article th:replace="~{components/juego-card :: card(${juego}, false)}"></article>
+                </th:block>
+            </div>
+            <div class="store-empty" th:if="${#lists.isEmpty(ultimosJuegos)}">
+                <span class="empty-mark" aria-hidden="true">+</span>
+                <h3>Estamos preparando la próxima partida</h3>
+                <p>Los juegos aparecerán aquí cuando se incorporen al catálogo.</p>
+                <a th:href="@{/juegos}" class="store-text-link">Ir al catálogo <span aria-hidden="true">↗</span></a>
+            </div>
+        </section>
+
+        <section class="home-platforms store-container" th:if="${not #lists.isEmpty(plataformas)}" aria-labelledby="platform-title">
+            <div class="store-section-header">
+                <div><p class="store-eyebrow">Juega a tu manera</p><h2 id="platform-title">Tu plataforma. Tus juegos.</h2></div>
+                <p class="section-description">Encuentra títulos para tu sistema favorito.</p>
+            </div>
+            <div class="platform-grid">
+                <a class="platform-link" th:each="plataforma : ${plataformas}"
+                   th:href="@{/juegos(plataformaId=${plataforma.id})}">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                        <path d="M8 7h8c3 0 4 3 5 8 .5 3-2 4-4 1l-1-1H8l-1 1c-2 3-4.5 2-4-1 1-5 2-8 5-8Z"/>
+                        <path d="M8 9v5m-2.5-2.5h5M15 10h.01M18 12h.01"/>
+                    </svg>
+                    <span th:text="${plataforma.nombre}">Plataforma</span><span class="platform-arrow" aria-hidden="true">↗</span>
+                </a>
+            </div>
+        </section>
+    </main>
+    <footer th:replace="~{layout/layout :: footer}"></footer>
+</body>
+</html>

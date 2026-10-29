@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{layout/layout :: head('Iniciar Sesión')}"></head>
+
+<body class="login-body">
+
+    <!-- Canvas manejado por JS de fondo -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Botón para regresar al catálogo -->
+    <a th:href="@{/juegos}" class="btn-volver relative-z">← Volver al inicio</a>
+
+    <main class="auth-wrapper relative-z">
+        <div class="auth-card">
+
+            <div class="login-top">
+                <a th:href="@{/auth/registro}" class="auth-header-text">REGISTRO</a>
+            </div>
+
+            <div class="login-bottom">
+                <h2>Iniciar Sesión</h2>
+                <div th:if="${param.exito}"
+                    style="color: #28a745; text-align: center; margin-bottom: 15px; font-weight: bold;">
+                    ¡Registro exitoso! Ahora puedes iniciar sesión.
+                </div>
+
+                <!-- NUEVO: Alerta visual cuando las credenciales fallan -->
+                <div th:if="${param.error}" class="alert-error" 
+                    style="margin-bottom: 15px; padding: 10px; font-size: 0.85rem; text-align: center;">
+                    Correo o contraseña incorrectos.
+                </div>
+
+                <form id="loginForm" th:action="@{/login}" method="post">
+                    <!-- CAMBIO CLAVE: name="email" en lugar de username -->
+                    <input type="email" id="email" name="email" class="auth-input" placeholder="Correo" required autofocus>
+                    
+                    <input type="password" id="password" name="password" class="auth-input" placeholder="Contraseña" required>
+
+                    <button type="submit" class="auth-btn" style="margin-top: 10px;">Iniciar Sesión</button>
+                </form>
+                </form>
+            </div>
+
+        </div>
+    </main>
+
+    <script th:src="@{/js/login.js}"></script>
+</body>
+
+</html>

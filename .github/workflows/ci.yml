@@ -1,0 +1,30 @@
+name: Integracion continua GameHub
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verificar:
+    name: Compilar y verificar
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Descargar el codigo
+        uses: actions/checkout@v6
+
+      - name: Configurar Java 21
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+          cache-dependency-path: Tienda/pom.xml
+
+      - name: Compilar, ejecutar pruebas y generar JAR
+        run: mvn --batch-mode --no-transfer-progress -f Tienda/pom.xml clean verify

@@ -1,12 +1,18 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
+
 <head th:replace="~{layout/layout :: head('GAME HUB — Catálogo de videojuegos')}"></head>
+
 <body class="storefront">
     <nav th:replace="~{layout/layout :: navbar}"></nav>
     <main class="store-container catalog-page" id="contenido">
-        <div class="store-breadcrumb"><a th:href="@{/}">Inicio</a><span aria-hidden="true">/</span><span>Catálogo</span></div>
+        <div class="store-breadcrumb"><a th:href="@{/}">Inicio</a><span aria-hidden="true">/</span><span>Catálogo</span>
+        </div>
         <header class="catalog-intro">
-            <div><p class="store-eyebrow">Explora GAME HUB</p><h1>Encuentra tu próxima <span>partida.</span></h1></div>
+            <div>
+                <p class="store-eyebrow">Explora GAME HUB</p>
+                <h1>Encuentra tu próxima <span>partida.</span></h1>
+            </div>
             <p>Tu siguiente aventura está a un clic.<br> Busca por título, categoría o plataforma.</p>
         </header>
 
@@ -15,25 +21,31 @@
             <form th:action="@{/juegos}" method="get" class="catalog-filter-form">
                 <div class="filter-field filter-field--search">
                     <label for="buscar">¿Qué quieres jugar?</label>
-                    <input type="search" id="buscar" name="buscar" placeholder="Busca un juego…" th:value="${buscarActual}">
+                    <input type="search" id="buscar" name="buscar" placeholder="Busca un juego…"
+                        th:value="${buscarActual}">
                 </div>
                 <div class="filter-field">
                     <label for="filtroCategoria">Categoría</label>
                     <select id="filtroCategoria" name="categoriaId">
                         <option value="">Todas las categorías</option>
-                        <option th:each="categoria : ${categorias}" th:value="${categoria.id}" th:text="${categoria.nombre}"
-                                th:selected="${categoriaSeleccionada != null and categoriaSeleccionada == categoria.id}"></option>
+                        <option th:each="categoria : ${categorias}" th:value="${categoria.id}"
+                            th:text="${categoria.nombre}"
+                            th:selected="${categoriaSeleccionada != null and categoriaSeleccionada == categoria.id}">
+                        </option>
                     </select>
                 </div>
                 <div class="filter-field">
                     <label for="filtroPlataforma">Plataforma</label>
                     <select id="filtroPlataforma" name="plataformaId">
                         <option value="">Todas las plataformas</option>
-                        <option th:each="plataforma : ${plataformas}" th:value="${plataforma.id}" th:text="${plataforma.nombre}"
-                                th:selected="${plataformaSeleccionada != null and plataformaSeleccionada == plataforma.id}"></option>
+                        <option th:each="plataforma : ${plataformas}" th:value="${plataforma.id}"
+                            th:text="${plataforma.nombre}"
+                            th:selected="${plataformaSeleccionada != null and plataformaSeleccionada == plataforma.id}">
+                        </option>
                     </select>
                 </div>
-                <button type="submit" class="store-button filter-submit">Buscar <span aria-hidden="true">↗</span></button>
+                <button type="submit" class="store-button filter-submit">Buscar <span
+                        aria-hidden="true">↗</span></button>
             </form>
         </details>
 
@@ -41,24 +53,30 @@
             <div class="store-section-header catalog-results-header">
                 <div class="results-heading">
                     <h2 id="results-title">Todos los juegos</h2>
-                    <span class="results-count" th:text="${totalResultados + (totalResultados == 1 ? ' juego' : ' juegos')}">0 juegos</span>
+                    <span class="results-count"
+                        th:text="${totalResultados + (totalResultados == 1 ? ' juego' : ' juegos')}">0 juegos</span>
                 </div>
                 <span class="catalog-sort-note">De la A a la Z</span>
             </div>
-            <div class="active-filters" th:if="${not #strings.isEmpty(buscarActual) or categoriaSeleccionada != null or plataformaSeleccionada != null}">
-                <span class="active-filter" th:if="${not #strings.isEmpty(buscarActual)}" th:text="${'Búsqueda: ' + buscarActual}"></span>
+            <div class="active-filters"
+                th:if="${not #strings.isEmpty(buscarActual) or categoriaSeleccionada != null or plataformaSeleccionada != null}">
+                <span class="active-filter" th:if="${not #strings.isEmpty(buscarActual)}"
+                    th:text="${'Búsqueda: ' + buscarActual}"></span>
                 <th:block th:each="categoria : ${categorias}">
-                    <span class="active-filter" th:if="${categoria.id == categoriaSeleccionada}" th:text="${categoria.nombre}"></span>
+                    <span class="active-filter" th:if="${categoria.id == categoriaSeleccionada}"
+                        th:text="${categoria.nombre}"></span>
                 </th:block>
                 <th:block th:each="plataforma : ${plataformas}">
-                    <span class="active-filter" th:if="${plataforma.id == plataformaSeleccionada}" th:text="${plataforma.nombre}"></span>
+                    <span class="active-filter" th:if="${plataforma.id == plataformaSeleccionada}"
+                        th:text="${plataforma.nombre}"></span>
                 </th:block>
                 <a th:href="@{/juegos}" class="clear-filters">Limpiar filtros <span aria-hidden="true">×</span></a>
             </div>
 
             <div class="store-empty" th:if="${#lists.isEmpty(juegos)}">
                 <span class="empty-mark" aria-hidden="true">⌕</span>
-                <h3 th:text="${totalResultados > 0} ? 'Esta página no tiene juegos' : 'No encontramos juegos'">No encontramos juegos</h3>
+                <h3 th:text="${totalResultados > 0} ? 'Esta página no tiene juegos' : 'No encontramos juegos'">No
+                    encontramos juegos</h3>
                 <p>Prueba con otro título o cambia los filtros para explorar más opciones.</p>
                 <a th:href="@{/juegos}" class="store-button store-button--secondary">Ver todos los juegos</a>
             </div>
@@ -70,16 +88,21 @@
 
             <nav class="store-pagination" aria-label="Páginas del catálogo" th:if="${totalPaginas > 1}">
                 <a th:if="${paginaActual > 0}" class="store-page-link"
-                   th:href="@{/juegos(buscar=${buscarActual}, categoriaId=${categoriaSeleccionada}, plataformaId=${plataformaSeleccionada}, page=${paginaActual - 1})}" aria-label="Página anterior">←</a>
+                    th:href="@{/juegos(buscar=${buscarActual}, categoriaId=${categoriaSeleccionada}, plataformaId=${plataformaSeleccionada}, page=${paginaActual - 1})}"
+                    aria-label="Página anterior">←</a>
                 <th:block th:each="i : ${#numbers.sequence(0, totalPaginas - 1)}">
                     <a th:if="${i == 0 or i == totalPaginas - 1 or (i >= paginaActual - 2 and i <= paginaActual + 2)}"
-                       class="store-page-link" th:classappend="${i == paginaActual} ? 'is-current'"
-                       th:attr="aria-current=${i == paginaActual ? 'page' : null},aria-label=${'Página ' + (i + 1)}"
-                       th:href="@{/juegos(buscar=${buscarActual}, categoriaId=${categoriaSeleccionada}, plataformaId=${plataformaSeleccionada}, page=${i})}" th:text="${i + 1}">1</a>
-                    <span class="page-gap" th:if="${(i == paginaActual - 3 and i > 0) or (i == paginaActual + 3 and i < totalPaginas - 1)}" aria-hidden="true">…</span>
+                        class="store-page-link" th:classappend="${i == paginaActual} ? 'is-current'"
+                        th:attr="aria-current=${i == paginaActual ? 'page' : null},aria-label=${'Página ' + (i + 1)}"
+                        th:href="@{/juegos(buscar=${buscarActual}, categoriaId=${categoriaSeleccionada}, plataformaId=${plataformaSeleccionada}, page=${i})}"
+                        th:text="${i + 1}">1</a>
+                    <span class="page-gap"
+                        th:if="${(i == paginaActual - 3 and i > 0) or (i == paginaActual + 3 and i < totalPaginas - 1)}"
+                        aria-hidden="true">…</span>
                 </th:block>
                 <a th:if="${paginaActual < totalPaginas - 1}" class="store-page-link"
-                   th:href="@{/juegos(buscar=${buscarActual}, categoriaId=${categoriaSeleccionada}, plataformaId=${plataformaSeleccionada}, page=${paginaActual + 1})}" aria-label="Página siguiente">→</a>
+                    th:href="@{/juegos(buscar=${buscarActual}, categoriaId=${categoriaSeleccionada}, plataformaId=${plataformaSeleccionada}, page=${paginaActual + 1})}"
+                    aria-label="Página siguiente">→</a>
             </nav>
         </section>
     </main>
@@ -87,4 +110,5 @@
     <div th:replace="~{layout/layout :: confirmModal}"></div>
     <script th:src="@{/js/confirm-modal.js}"></script>
 </body>
+
 </html>

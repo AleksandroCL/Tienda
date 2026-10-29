@@ -10,6 +10,7 @@
 
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="stylesheet" th:href="@{/css/storefront.css}">
+    <link rel="stylesheet" th:href="@{/css/forms.css}">
     <script th:src="@{/js/storefront.js}" defer></script>
     <script th:src="@{/js/soporte.js}" defer></script>
 </head>
@@ -20,10 +21,11 @@
             <a th:href="@{/}" class="logo-link site-logo" aria-label="GAME HUB — Inicio">
                 <span class="logo-game">GAME</span><span class="logo-hub">HUB</span>
             </a>
-            <button class="site-nav-toggle" id="navToggle" type="button" aria-label="Abrir menú"
-                    aria-expanded="false" aria-controls="navMenu" hidden>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-                    <path d="M4 6h16M4 12h16M4 18h16"/>
+            <button class="site-nav-toggle" id="navToggle" type="button" aria-label="Abrir menú" aria-expanded="false"
+                aria-controls="navMenu" hidden>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                    aria-hidden="true">
+                    <path d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
             </button>
             <div class="site-menu" id="navMenu">
@@ -34,31 +36,39 @@
                 <form class="site-search" th:action="@{/juegos}" method="get" role="search">
                     <label class="visually-hidden" for="navSearch">Buscar videojuegos</label>
                     <input type="search" id="navSearch" name="buscar" placeholder="¿Qué quieres jugar?"
-                           th:value="${buscarActual}" autocomplete="off">
+                        th:value="${buscarActual}" autocomplete="off">
                     <button type="submit" aria-label="Buscar">
-                        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-                            <circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/>
+                        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.8" aria-hidden="true">
+                            <circle cx="10.5" cy="10.5" r="6.5" />
+                            <path d="m16 16 5 5" />
                         </svg>
                     </button>
                 </form>
                 <div class="site-nav-links">
                     <a th:href="@{/}" th:classappend="${currentUri == '/'} ? 'is-active'"
-                       th:attr="aria-current=${currentUri == '/' ? 'page' : null}">Inicio</a>
-                    <a th:href="@{/juegos}" th:classappend="${currentUri != null and #strings.startsWith(currentUri, '/juegos')} ? 'is-active'"
-                       th:attr="aria-current=${currentUri == '/juegos' ? 'page' : null}">Catálogo</a>
+                        th:attr="aria-current=${currentUri == '/' ? 'page' : null}">Inicio</a>
+                    <a th:href="@{/juegos}"
+                        th:classappend="${currentUri != null and #strings.startsWith(currentUri, '/juegos')} ? 'is-active'"
+                        th:attr="aria-current=${currentUri == '/juegos' ? 'page' : null}">Catálogo</a>
                     <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin/dashboard}"
-                       th:classappend="${currentUri != null and #strings.startsWith(currentUri, '/admin')} ? 'is-active'"
-                       th:attr="aria-current=${currentUri == '/admin/dashboard' ? 'page' : null}">Administrar</a>
+                        th:classappend="${currentUri != null and #strings.startsWith(currentUri, '/admin')} ? 'is-active'"
+                        th:attr="aria-current=${currentUri == '/admin/dashboard' ? 'page' : null}">Administrar</a>
                 </div>
                 <div class="site-nav-account">
                     <a th:href="@{/carrito}" class="site-cart site-icon-button" aria-label="Ver carrito"
-                       th:classappend="${currentUri == '/carrito'} ? 'is-active'">
-                        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
-                            <path d="M3 3h2l3 12h10l3-9H6"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/>
+                        th:classappend="${currentUri == '/carrito'} ? 'is-active'">
+                        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.7" aria-hidden="true">
+                            <path d="M3 3h2l3 12h10l3-9H6" />
+                            <circle cx="9" cy="20" r="1" />
+                            <circle cx="18" cy="20" r="1" />
                         </svg>
-                        <span class="site-cart-count" th:if="${cantidadCarrito != null and cantidadCarrito > 0}" th:text="${cantidadCarrito}">0</span>
+                        <span class="site-cart-count" th:if="${cantidadCarrito != null and cantidadCarrito > 0}"
+                            th:text="${cantidadCarrito}">0</span>
                     </a>
-                    <a sec:authorize="isAnonymous()" th:href="@{/auth/login}" class="site-login">Iniciar sesión <span aria-hidden="true">↗</span></a>
+                    <a sec:authorize="isAnonymous()" th:href="@{/auth/login}" class="site-login">Iniciar sesión <span
+                            aria-hidden="true">↗</span></a>
                     <th:block sec:authorize="isAuthenticated()">
                         <span class="site-user">Hola, <strong sec:authentication="principal.nombre"></strong></span>
                         <form th:action="@{/logout}" method="post" class="site-logout-form">
@@ -68,7 +78,8 @@
                 </div>
             </div>
         </div>
-        <button class="site-nav-backdrop" id="navBackdrop" type="button" aria-label="Cerrar menú" tabindex="-1" hidden></button>
+        <button class="site-nav-backdrop" id="navBackdrop" type="button" aria-label="Cerrar menú" tabindex="-1"
+            hidden></button>
     </nav>
 
     <!-- FRAGMENTO: Modal de confirmación reutilizable (usado por cualquier botón "Eliminar" del sitio) -->
@@ -86,7 +97,7 @@
     <!-- FRAGMENTO: Footer Moderno -->
     <footer th:fragment="footer" class="footer-modern">
         <div class="footer-content">
-            
+
             <!-- Columna 1: Marca -->
             <div class="footer-brand">
                 <a href="/" class="logo-link" style="margin-bottom: 15px;">
@@ -108,8 +119,10 @@
             <!-- Columna 3: Legal y Soporte -->
             <div class="footer-links">
                 <h4>Soporte y Legal</h4>
-                <a th:href="@{/soporte/terminos}" data-support-dialog="terminosDialog" aria-haspopup="dialog">Términos y Condiciones</a>
-                <a th:href="@{/soporte/privacidad}" data-support-dialog="privacidadDialog" aria-haspopup="dialog">Política de Privacidad</a>
+                <a th:href="@{/soporte/terminos}" data-support-dialog="terminosDialog" aria-haspopup="dialog">Términos y
+                    Condiciones</a>
+                <a th:href="@{/soporte/privacidad}" data-support-dialog="privacidadDialog"
+                    aria-haspopup="dialog">Política de Privacidad</a>
                 <a th:href="@{/soporte/ayuda}">Centro de Ayuda</a>
             </div>
 

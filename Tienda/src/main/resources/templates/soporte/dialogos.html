@@ -1,23 +1,43 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
+
 <body>
     <div th:fragment="dialogos">
         <dialog id="terminosDialog" class="support-dialog" aria-labelledby="terminos-title">
             <div class="support-dialog-heading">
-                <div><p>GAME HUB · Condiciones de uso</p><h2 id="terminos-title">Términos y condiciones</h2></div>
-                <form method="dialog"><button type="submit" class="support-close" aria-label="Cerrar términos y condiciones" autofocus>×</button></form>
+                <div>
+                    <p>GAME HUB · Condiciones de uso</p>
+                    <h2 id="terminos-title">Términos y condiciones</h2>
+                </div>
+                <form method="dialog"><button type="submit" class="support-close"
+                        aria-label="Cerrar términos y condiciones" autofocus>×</button></form>
             </div>
-            <div class="support-dialog-content"><article th:replace="~{soporte/contenido :: terminos}"></article></div>
-            <div class="support-dialog-footer"><form method="dialog"><button type="submit" class="store-button store-button--secondary">Cerrar</button></form></div>
+            <div class="support-dialog-content">
+                <article th:replace="~{soporte/contenido :: terminos}"></article>
+            </div>
+            <div class="support-dialog-footer">
+                <form method="dialog"><button type="submit" class="store-button store-button--secondary">Cerrar</button>
+                </form>
+            </div>
         </dialog>
         <dialog id="privacidadDialog" class="support-dialog" aria-labelledby="privacidad-title">
             <div class="support-dialog-heading">
-                <div><p>GAME HUB · Tus datos</p><h2 id="privacidad-title">Política de privacidad</h2></div>
-                <form method="dialog"><button type="submit" class="support-close" aria-label="Cerrar política de privacidad" autofocus>×</button></form>
+                <div>
+                    <p>GAME HUB · Tus datos</p>
+                    <h2 id="privacidad-title">Política de privacidad</h2>
+                </div>
+                <form method="dialog"><button type="submit" class="support-close"
+                        aria-label="Cerrar política de privacidad" autofocus>×</button></form>
             </div>
-            <div class="support-dialog-content"><article th:replace="~{soporte/contenido :: privacidad}"></article></div>
-            <div class="support-dialog-footer"><form method="dialog"><button type="submit" class="store-button store-button--secondary">Cerrar</button></form></div>
+            <div class="support-dialog-content">
+                <article th:replace="~{soporte/contenido :: privacidad}"></article>
+            </div>
+            <div class="support-dialog-footer">
+                <form method="dialog"><button type="submit" class="store-button store-button--secondary">Cerrar</button>
+                </form>
+            </div>
         </dialog>
     </div>
 </body>
+
 </html>

@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head th:replace="~{layout/layout :: head(${tituloError})}"></head>
+
 <body>
     <nav th:replace="~{layout/layout :: navbar}"></nav>
     <main class="hero error-page">
@@ -9,9 +11,11 @@
         <p class="hero-sub" th:text="${mensajeError}">Inténtalo de nuevo en unos momentos.</p>
         <div class="error-actions">
             <a th:href="@{/juegos}" class="store-button">Volver al catálogo</a>
-            <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin/dashboard}" class="store-button store-button--secondary">Ir al panel</a>
+            <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin/dashboard}"
+                class="store-button store-button--secondary">Ir al panel</a>
         </div>
     </main>
     <footer th:replace="~{layout/layout :: footer}"></footer>
 </body>
+
 </html>

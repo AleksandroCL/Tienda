@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
+
 <head th:replace="~{layout/layout :: head(${tituloDocumento} + ' — GAME HUB')}"></head>
+
 <body class="storefront">
     <nav th:replace="~{layout/layout :: navbar}"></nav>
     <main class="store-container support-page legal-page">
         <a th:href="@{/}" class="form-back">← Volver al inicio</a>
-        <header class="support-page-header"><p class="store-eyebrow">GAME HUB</p><h1 th:text="${tituloDocumento}">Información</h1></header>
+        <header class="support-page-header">
+            <p class="store-eyebrow">GAME HUB</p>
+            <h1 th:text="${tituloDocumento}">Información</h1>
+        </header>
         <div class="support-panel legal-page-panel">
             <article th:if="${tipoDocumento == 'terminos'}" th:insert="~{soporte/contenido :: terminos}"></article>
             <article th:if="${tipoDocumento == 'privacidad'}" th:insert="~{soporte/contenido :: privacidad}"></article>
@@ -13,4 +18,5 @@
     </main>
     <footer th:replace="~{layout/layout :: footer}"></footer>
 </body>
+
 </html>

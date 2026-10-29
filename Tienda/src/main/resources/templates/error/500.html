@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
+
 <head th:replace="~{layout/layout :: head('Algo salió mal — GAME HUB')}"></head>
+
 <body>
     <nav th:replace="~{layout/layout :: navbar}"></nav>
     <main class="hero error-page">
-        <p class="hero-eyebrow">Error 500</p><h1>Algo salió mal</h1>
+        <p class="hero-eyebrow">Error 500</p>
+        <h1>Algo salió mal</h1>
         <p class="hero-sub">No pudimos completar la operación. Inténtalo de nuevo en unos momentos.</p>
         <a th:href="@{/juegos}" class="store-button">Volver al catálogo</a>
     </main>
     <footer th:replace="~{layout/layout :: footer}"></footer>
 </body>
+
 </html>

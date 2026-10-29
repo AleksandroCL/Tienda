@@ -1,29 +1,55 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
+
 <head th:replace="~{layout/layout :: head(${editando} ? 'Editar plataforma' : 'Nueva plataforma')}"></head>
-<body>
+
+<body class="storefront management-page">
     <nav th:replace="~{layout/layout :: navbar}"></nav>
-    <main class="catalogo-container">
+    <main class="store-container management-main">
         <a th:href="@{/admin/plataformas}" class="form-back">← Volver a plataformas</a>
-        <div class="form-card">
-            <div class="form-header"><h2 th:text="${editando} ? 'Editar plataforma' : 'Nueva plataforma'"></h2></div>
-            <div class="form-body">
-                <form th:action="${editando} ? @{/admin/plataformas/editar/{id}(id=${plataformaId})} : @{/admin/plataformas/nueva}"
-                      th:object="${plataformaDto}" method="post">
-                    <div class="form-group">
-                        <label for="nombre">Nombre de la plataforma</label>
-                        <input type="text" id="nombre" class="auth-input" th:field="*{nombre}" placeholder="Ej. PlayStation 5, Xbox Series X, PC…"
-                               required maxlength="30" autofocus aria-describedby="nombre-error" th:attr="aria-invalid=${#fields.hasErrors('nombre')}">
-                        <span class="field-error" id="nombre-error" th:errors="*{nombre}"></span>
-                    </div>
-                    <div class="form-actions">
-                        <a th:href="@{/admin/plataformas}" class="btn-cancel">Cancelar</a>
-                        <button type="submit" class="auth-btn" th:text="${editando} ? 'Guardar cambios' : 'Crear plataforma'"></button>
-                    </div>
-                </form>
-            </div>
-        </div>
+        <section class="management-card" aria-labelledby="form-title">
+            <header class="management-heading">
+                <span class="management-mark" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <rect x="4" y="3" width="16" height="18" rx="3" />
+                        <path d="M8 8h8M8 12h8M8 16h4" />
+                    </svg></span>
+                <div>
+                    <p class="form-eyebrow">Catálogo · Plataformas</p>
+                    <h1 id="form-title" th:text="${editando} ? 'Editar plataforma' : 'Nueva plataforma'">Formulario</h1>
+                    <p>Indica la consola o el sistema en el que se puede jugar.</p>
+                </div>
+            </header>
+            <form class="management-form"
+                th:action="${editando} ? @{/admin/plataformas/editar/{id}(id=${plataformaId})} : @{/admin/plataformas/nueva}"
+                th:object="${plataformaDto}" method="post">
+                <div class="form-feedback" th:if="${#fields.hasAnyErrors()}" role="alert" tabindex="-1">
+                    <strong>Revisa los campos indicados.</strong><span>Completa o corrige la información antes de
+                        guardar.</span>
+                </div>
+                <div class="form-group">
+                    <label for="nombre">Nombre de la plataforma <span class="required-mark"
+                            aria-hidden="true">*</span></label>
+                    <input type="text" id="nombre" class="auth-input" th:field="*{nombre}"
+                        placeholder="Ej. PC, PlayStation 5, Nintendo Switch" required maxlength="30"
+                        aria-describedby="nombre-help nombre-error"
+                        th:attr="aria-invalid=${#fields.hasErrors('nombre')}">
+                    <p class="form-help" id="nombre-help">Usa un nombre claro, de hasta 30 caracteres.</p>
+                    <span class="field-error" id="nombre-error" th:errors="*{nombre}"></span>
+                </div>
+                <aside class="form-tip"><strong>Antes de guardar</strong>
+                    <p>El nombre debe ser único. Puedes conservar el actual al editar.</p>
+                </aside>
+                <div class="form-actions">
+                    <a th:href="@{/admin/plataformas}" class="btn-cancel">Cancelar</a>
+                    <button type="submit" class="auth-btn"
+                        th:text="${editando} ? 'Guardar cambios' : 'Crear plataforma'">Guardar</button>
+                </div>
+            </form>
+        </section>
     </main>
     <footer th:replace="~{layout/layout :: footer}"></footer>
 </body>
+
 </html>
